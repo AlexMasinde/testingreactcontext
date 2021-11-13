@@ -1,6 +1,6 @@
-export const activities = [
+export const testActivities = [
   {
-    name: "Build a new website",
+    name: "Work on tests",
     createdAt: new Date(),
     tasks: [
       "recruit a team",
@@ -10,7 +10,7 @@ export const activities = [
     ],
   },
   {
-    name: "Write a new book",
+    name: "Build a pipeline",
     createdAt: new Date(),
     tasks: [
       "select topic",
@@ -21,7 +21,7 @@ export const activities = [
     ],
   },
   {
-    name: "Learn javascript",
+    name: "deploy project",
     createdAt: new Date(),
     tasks: [
       "select courses",

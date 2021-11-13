@@ -1,27 +1,20 @@
-import { render, screen, waitFor } from '@testing-library/react';
-import ActivityList from './ActivityList';
-import { SelectedActivityContext } from './selectedActivityContext';
-import {activities} from './activities'
-import userEvent from '@testing-library/user-event';
+import { render, screen } from "@testing-library/react";
+import ActivityList from "./ActivityList";
+import { SelectedActivityContextProvider } from "./selectedActivityContext";
+import { testActivities } from "./testActivities";
+import userEvent from "@testing-library/user-event";
 
-
-
-test('renders activity view when activity is selected', async () => {
-
-  const value = {
-    dispatch: jest.fn(),
-    activities: activities,
-    SelectedActivity: null
-  }
+test("renders activity view when activity is selected", async () => {
   render(
-    <SelectedActivityContext.Provider value={value}>
+    <SelectedActivityContextProvider testActivities={testActivities}>
       <ActivityList />
-    </SelectedActivityContext.Provider>
-  )
-  const activityElement = screen.getByText(activities[0].name)
-  userEvent.click(activityElement)
-  await waitFor(() => {
-    screen.debug()
-  })
-  expect(activityElement).toBeInTheDocument()
+    </SelectedActivityContextProvider>
+  );
+  const activityName = testActivities[0].name;
+  const activityElement = screen.getByText(activityName);
+  userEvent.click(activityElement);
+  expect(
+    screen.getByRole("heading", { name: activityName })
+  ).toBeInTheDocument();
+  screen.debug();
 });

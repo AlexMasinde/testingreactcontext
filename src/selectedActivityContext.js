@@ -1,40 +1,36 @@
-import React, { createContext, useContext, useReducer } from 'react'
-import {activities} from './activities'
+import React, { createContext, useContext, useReducer } from "react";
+import { activities } from "./activities";
 
-export const SelectedActivityContext = createContext()
+export const SelectedActivityContext = createContext();
 
-export function useSlectedActivity(){
-    return useContext(SelectedActivityContext)
+export function useSlectedActivity() {
+  return useContext(SelectedActivityContext);
 }
-
 
 function reducer(state, action) {
-    switch(action.type) {
-        case 'select-activity':
-            return {...state, selectedActivity: action.payload}
-            case 'delete-activity':
-                return {...state, activities: action.payload}
-        default:
-            return state
-    }
+  switch (action.type) {
+    case "select-activity":
+      return { ...state, selectedActivity: action.payload };
+    case "delete-activity":
+      return { ...state, activities: action.payload };
+    default:
+      return state;
+  }
 }
 
-const initialState = {
+export function SelectedActivityContextProvider({ children, testActivities }) {
+  const initialState = {
     selectedActivity: null,
-    activities: activities
-}
+    activities: testActivities ?? activities,
+  };
 
-export function SelectedActivityContextProvider({children}) {
-    const [state, dispatch] = useReducer(reducer, initialState)
+  const [state, dispatch] = useReducer(reducer, initialState);
 
-    const value = {
-         dispatch,
-         activities: state.activities,
-         selectedActivity: state.selectedActivity
-    }
-    return (
-        <SelectedActivityContext.Provider value={value}>
-            {children}
-        </SelectedActivityContext.Provider>
-    )
+  const value = { ...state, dispatch };
+
+  return (
+    <SelectedActivityContext.Provider value={value}>
+      {children}
+    </SelectedActivityContext.Provider>
+  );
 }
